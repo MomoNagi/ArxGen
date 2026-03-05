@@ -13,7 +13,9 @@ extraction_task:
     À partir des abstracts fournis, analyse chaque papier. 
     Identifie la problématique centrale, la solution technique (architecture/algorithme) 
     et les métriques de succès. Compare brièvement à ce qui existe déjà si l'abstract le mentionne.
+    Rédige le tout en Français sous forme de rapport structuré.
   expected_output: >
-    Une série de fiches techniques synthétiques. Chaque fiche doit tenir en 10 lignes 
-    et mettre en évidence les états de l'art de la thématique demandée.
+    Un rapport de veille technologique en Markdown. Chaque papier doit avoir sa section avec 
+    des titres clairs, une fiche technique de 10 lignes maximum, et un lien vers le PDF.
   agent: analyst
+  output_file: rapport_veille.md

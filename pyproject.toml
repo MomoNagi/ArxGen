@@ -1,5 +1,5 @@
 [project]
-name = "arxrate"
+name = "arxgen"
 version = "0.1.0"
 description = "Veille scientifique automatisée via l'API ArXiv"
 readme = "README.md"
@@ -13,4 +13,6 @@ dependencies = [
     "PyYAML>=6.0.1",
     "langchain-ollama>=1.0.1",
     "langchain-community>=0.0.30",
+    "litellm>=1.44.0",
+    "openai~=1.83.0",
 ]

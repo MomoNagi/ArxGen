@@ -1,38 +1,38 @@
 from crewai import Agent, Crew, Process, Task
 from crewai.project import CrewBase, agent, crew, task
-from langchain_ollama import ChatOllama
-from arxrate.tools.arxiv_tool import ArxivSearchTool
+from arxgen.tools.arxiv_tool import ArxivSearchTool
 import os
 
 @CrewBase
-class ArxRateCrew:
+class ArxGenCrew:
     """Crew to research and analyse arxiv papers based on a query"""
 
     agents_config = "config/agents.yaml"
     tasks_config = "config/tasks.yaml"
 
     def __init__(self) -> None:
-        self.ollama_llm = ChatOllama(
-            model=os.getenv("OLLAMA_MODEL", "llama3.1:8b"),
-            base_url=os.getenv("OLLAMA_BASE_URL", "http://localhost:11434"),
-            temperature=0.1,
-        )
+        model_name = os.getenv("OLLAMA_MODEL", "phi3:latest")
+        self.llm_config = f"ollama/{model_name}"
 
     @agent
     def researcher(self) -> Agent:
         return Agent(
             config=self.agents_config["researcher"],
             tools=[ArxivSearchTool()],
-            llm=self.ollama_llm,
-            verbose=True
+            llm=self.llm_config,
+            base_url="http://localhost:11434",
+            verbose=True,
+            allow_delegation=False
         )
 
     @agent
     def analyst(self) -> Agent:
         return Agent(
             config=self.agents_config["analyst"],
-            llm=self.ollama_llm,
-            verbose=True
+            llm=self.llm_config,
+            base_url="http://localhost:11434",
+            verbose=True,
+            allow_delegation=False
         )
 
     @task
@@ -48,7 +48,7 @@ class ArxRateCrew:
             config=self.tasks_config["extraction_task"],
             agent=self.analyst(),
             context=[self.retrieval_task()],
-            output_file="src/arxrate/outputs/report.md"
+            output_file="src/arxgen/outputs/report.md"
         )
 
     @crew
