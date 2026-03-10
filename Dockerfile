@@ -1,5 +1,14 @@
 FROM python:3.12
 
+# installing pdf rendering tools
+RUN apt-get update && apt-get install -y \
+    libpango-1.0-0 \
+    libharfbuzz0b \
+    libpangoft2-1.0-0 \
+    libpangocairo-1.0-0 \
+    fonts-liberation \
+    && rm -rf /var/lib/apt/lists/*
+
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
@@ -23,4 +32,5 @@ CMD ["uv", "run", "arxgen"]
 # (sudo) docker build -t arxgen:latest .
 
 # Running docker image (-it : -i for interactive and -t to simulate a real terminal with colors):
-# (sudo) docker run -it --network="host" --env-file .env arxgen:latest
+# (sudo) docker run -it --network="host" --env-file .env -v "$(pwd)/src/arxgen/outputs:/app/src/arxgen/outputs" arxgen:latest
+# v: Volume mapping to save the PDF directly in outputs folder.
