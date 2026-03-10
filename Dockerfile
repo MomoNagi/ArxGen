@@ -20,7 +20,7 @@ RUN uv sync --frozen
 CMD ["uv", "run", "arxgen"]
 
 # Building docker image:
-# docker build -t arxgen:latest .
+# (sudo) docker build -t arxgen:latest .
 
-# Running docker image :
-# docker run --network="host" --env-file .env arxgen:latest
+# Running docker image (-it : -i for interactive and -t to simulate a real terminal with colors):
+# (sudo) docker run -it --network="host" --env-file .env arxgen:latest
